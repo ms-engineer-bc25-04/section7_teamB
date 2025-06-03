@@ -13,6 +13,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  favorites Favorite[]
+
+  @@map("users")
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("favorites")
+
 model Favorite {
   id        String   @id @default(uuid())
   userId    String
@@ -21,4 +44,5 @@ model Favorite {
   memo      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
 }
