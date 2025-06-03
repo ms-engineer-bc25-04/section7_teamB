@@ -26,9 +26,9 @@ app.add_middleware(
 )
 
 # ルーターを登録（仮）
-app.include_router(recipes.router, prefix="/api/recipes", tags=["recipes"])
-app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
-app.include_router(favorites.router, prefix="/api/favorites", tags=["favorites"])
+# app.include_router(recipes.router, prefix="/api/recipes", tags=["recipes"])
+# app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+# app.include_router(favorites.router, prefix="/api/favorites", tags=["favorites"])
 
 
 # ルートパス
