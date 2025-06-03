@@ -1,0 +1,16 @@
+# Node
+node_modules/
+.next/
+dist/
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Prisma
+backend/prisma/migrations/
+
+# Docker
+db-data/
