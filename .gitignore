@@ -1,39 +1,48 @@
-# Node
-node_modules/
+# Dependencies
 **/node_modules/
-.next/
-**/.next/
-dist/
-.env
+**/venv/
+**/.venv/
+
+# Environment
 **/.env
+**/.env.*
+!**/.env.example
 
 # Python
-__pycache__/
-*.pyc
-venv/
-.venv
-__init__.py
+**/__pycache__/
+**/*.py[cod]
+**/*.so
 
-# Prisma
+# Database
+**/db-data/
 **/prisma/migrations/
+**/generated/prisma
+**/*.sqlite
+**/*.db
 
-# Docker
-db-data/
-
-# production
-**/build
+# Build outputs
+**/.next/
+**/build/
 **/dist/
 
 # Firebase
 **/serviceAccountKey.json
 
 # typescript
+**/*.tsbuildinfo
 **/next-env.d.ts
 
 # IDE
 .vscode/
 **/.vscode/
 
-# misc
+# OS generated
 .DS_Store
+**/.DS_Store
 *.pem
+Thumbs.db
+
+# Testing
+coverage/
+.coverage
+htmlcov/
