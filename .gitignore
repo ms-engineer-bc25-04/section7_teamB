@@ -1,16 +1,39 @@
 # Node
 node_modules/
+**/node_modules/
 .next/
+**/.next/
 dist/
 .env
+**/.env
 
 # Python
 __pycache__/
 *.pyc
 venv/
+.venv
+__init__.py
 
 # Prisma
-backend/prisma/migrations/
+**/prisma/migrations/
 
 # Docker
 db-data/
+
+# production
+**/build
+**/dist/
+
+# Firebase
+**/serviceAccountKey.json
+
+# typescript
+**/next-env.d.ts
+
+# IDE
+.vscode/
+**/.vscode/
+
+# misc
+.DS_Store
+*.pem

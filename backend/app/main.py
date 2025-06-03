@@ -1,7 +1,5 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
-import os
+
 
 # いまはこうなっている：
 # from app.routers import recipes, auth, favorites
@@ -14,8 +12,10 @@ from app.routers import favorites
 from app.db import prisma_client
 
 
-# .envファイルから環境変数を読み込む
-load_dotenv()
+app = FastAPI(title="仮Recipe App API", version="0.1.0")
+
+
+
 
 
 # FastAPIアプリケーションのインスタンス生成
@@ -52,12 +52,12 @@ app.include_router(favorites.router, prefix="/api/favorites", tags=["favorites"]
 
 
 # ルートパス
+
 @app.get("/")
 async def root():
-    return {"message": "Recipe App API"}
+    return {"message": "仮のFastAPIサーバーが起動しました！"}
 
 
-# ヘルスチェックAPI
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
