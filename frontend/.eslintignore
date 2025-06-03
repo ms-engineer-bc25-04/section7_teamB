@@ -1,0 +1,9 @@
+node_modules
+.next
+dist
+build
+coverage
+public
+eslint.config.mjs
+postcss.config.js
+tailwind.config.js
