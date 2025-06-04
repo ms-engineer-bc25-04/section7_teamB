@@ -1,10 +1,12 @@
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
 
 # いまはこうなっている：
 # from app.routers import recipes, auth, favorites
 # 一旦こうする
-from app.routers import favorites
+from app.routers import recipes, favorites
 # auth や favorites はまだ作ってないなら、とりあえずコメントアウトでOK！
 # from app.routers import auth, recipes
 
@@ -12,10 +14,8 @@ from app.routers import favorites
 from app.db import prisma_client
 
 
-app = FastAPI(title="仮Recipe App API", version="0.1.0")
-
-
-
+# .envファイルから環境変数を読み込む
+load_dotenv()
 
 
 # FastAPIアプリケーションのインスタンス生成
@@ -45,19 +45,19 @@ async def shutdown():
 
 # ルーターを登録（仮）
 app.include_router(favorites.router, prefix="/api/favorites", tags=["favorites"])
+app.include_router(recipes.router, prefix="/api/recipes", tags=["recipes"])
 
 # まだ作ってないからコメントアウト！
 # app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
-# app.include_router(recipes.router, prefix="/api/recipes", tags=["recipes"])
 
 
 # ルートパス
-
 @app.get("/")
 async def root():
-    return {"message": "仮のFastAPIサーバーが起動しました！"}
+    return {"message": "Recipe App API"}
 
 
+# ヘルスチェックAPI
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}

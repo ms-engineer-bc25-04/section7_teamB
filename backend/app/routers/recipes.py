@@ -1,11 +1,14 @@
-# backend/app/api/recipes.py　一旦削除保留にしているけど、これは使わないかも。
+from fastapi import APIRouter, Request
+from app.services import chatgpt_service
 
-# from fastapi import APIRouter
-# from app.services.recipe_service import get_all_recipes
+router = APIRouter()
 
-# router = APIRouter()
+@router.post("")
+async def create_recipe(request: Request):
+    data = await request.json()
+    keyword = data.get("keyword")
 
-# @router.get("")
-# async def read_recipes():
-#     recipes = await get_all_recipes()
-#     return recipes
+    # ChatGPT API 呼び出し
+    recipe = await chatgpt_service.get_recipe_from_chatgpt(keyword)
+
+    return {"recipe": recipe}
