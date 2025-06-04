@@ -1,4 +1,4 @@
-// libs/firebase.ts
+// Firebaseの初期化と認証インスタンスのエクスポート、Google認証プロバイダー
 import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
