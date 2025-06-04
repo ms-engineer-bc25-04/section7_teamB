@@ -6,7 +6,8 @@ import os
 # いまはこうなっている：
 # from app.routers import recipes, auth, favorites
 # 一旦こうする
-from app.routers import recipes, favorites
+from app.routers import recipes, favorites, user
+
 # auth や favorites はまだ作ってないなら、とりあえずコメントアウトでOK！
 # from app.routers import auth, recipes
 
@@ -38,6 +39,7 @@ app.add_middleware(
 async def startup():
     await prisma_client.connect()
 
+
 @app.on_event("shutdown")
 async def shutdown():
     await prisma_client.disconnect()
@@ -46,6 +48,7 @@ async def shutdown():
 # ルーターを登録（仮）
 app.include_router(favorites.router, prefix="/api/favorites", tags=["favorites"])
 app.include_router(recipes.router, prefix="/api/recipes", tags=["recipes"])
+app.include_router(user.router, prefix="/api", tags=["user"])
 
 # まだ作ってないからコメントアウト！
 # app.include_router(auth.router, prefix="/api/auth", tags=["auth"])

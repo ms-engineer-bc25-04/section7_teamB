@@ -14,9 +14,28 @@ export const GoogleLoginButton = () => {
     setIsLoading(true);
     try {
       // Google認証ポップアップ表示
-      await signInWithPopup(auth, googleProvider);
-      // 認証成功後のリダイレクト（例：ダッシュボードへ）
-      router.push('/dashboard');
+      const result = await signInWithPopup(auth, googleProvider);
+
+      // ★ Firebase IDトークンを取得
+      const idToken = await result.user.getIdToken();
+      console.log("取得したIDトークン:", idToken); // ここで中身を一度確認
+
+      // ★ /api/user に認証付きでアクセス
+      const res = await fetch('/api/user', {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+
+      if (res.ok) {
+        const userData = await res.json();
+        alert('認証OK！ユーザー情報: ' + JSON.stringify(userData));
+        // 認証OKならリダイレクトやstate更新
+        router.push('/'); // あとで更新　お気に入りページにリダイレクトする
+      } else {
+        const err = await res.json();
+        alert('認証エラー: ' + err.detail);
+      }
     } catch (error) {
       console.error('Login error:', error);
       alert('Googleログインに失敗しました。再度お試しください。');
