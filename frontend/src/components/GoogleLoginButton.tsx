@@ -18,10 +18,12 @@ export const GoogleLoginButton = () => {
 
       // ★ Firebase IDトークンを取得
       const idToken = await result.user.getIdToken();
-      console.log("取得したIDトークン:", idToken); // ここで中身を一度確認
+      console.log('取得したIDトークン:', idToken); // ここで中身を一度確認
 
       // ★ /api/user に認証付きでアクセス
-      const res = await fetch('/api/user', {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api';
+      const res = await fetch(`${baseUrl}/user`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         },
@@ -38,6 +40,7 @@ export const GoogleLoginButton = () => {
       }
     } catch (error) {
       console.error('Login error:', error);
+      console.error('Googleログインエラー:', error);
       alert('Googleログインに失敗しました。再度お試しください。');
     } finally {
       setIsLoading(false);
