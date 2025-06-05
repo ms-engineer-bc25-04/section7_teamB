@@ -20,7 +20,7 @@ model User {
   name      String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  favorites Favorite[]
+  favorites Favorite[] @relation("UserFavorites")
 
   @@map("users")
 }
@@ -31,8 +31,8 @@ model Favorite {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userUid   String
+  user      User     @relation("UserFavorites", fields: [userUid], references: [uid], onDelete: Cascade)
 
   @@map("favorites")
 }
