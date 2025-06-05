@@ -8,6 +8,11 @@ from fastapi import HTTPException
 
 
 def initialize_firebase():
+    # ✅ テスト中は Firebase 初期化をスキップ
+    if os.getenv("TESTING") == "1":
+        print("[INFO] Skipping Firebase initialization (TESTING mode)")
+        return
+    
     try:
         # サービスアカウントキーのパスを環境変数から取得
         cred_path = os.environ.get(

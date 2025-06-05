@@ -1,8 +1,9 @@
 # FastAPI 本体
-fastapi==0.104.10
+fastapi==0.104.1
 
 # ASGI サーバー（開発用）
 uvicorn[standard]==0.24.0
+
 
 
 # 環境変数管理
