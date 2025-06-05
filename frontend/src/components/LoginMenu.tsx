@@ -1,13 +1,30 @@
-// components/LoginMenuButton.tsx
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/libs/firebase';
 import { useRouter } from 'next/navigation';
 
-export const LoginMenuButton = () => {
+export default function LoginMenuButton() {
   const [user] = useAuthState(auth);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  // ドロップダウンメニュー用のref
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // 外側クリックでドロップダウンを閉じる
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open]);
 
   // ログアウト処理
   const handleLogout = async () => {
@@ -79,4 +96,4 @@ export const LoginMenuButton = () => {
       )}
     </div>
   );
-};
+}

@@ -1,11 +1,10 @@
-// src/app/page.tsx
 'use client';
 
 import { useState } from 'react';
 import { fetchRecipes } from './api/fetchRecipes';
 import RecipeForm from '../components/RecipeForm';
 import RecipeList from '../components/RecipeList';
-// import { GoogleLoginButton } from '../components/GoogleLoginButton';
+import LoginMenuButton from '../components/LoginMenu';
 
 type Recipe = {
   title: string;
@@ -34,11 +33,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white font-sans p-8 flex flex-col items-center gap-6">
+      {/* ヘッダー */}
       <div className="flex justify-between w-full max-w-3xl items-center">
         <h1 className="text-3xl font-bold text-[#443627]">今日なにつくる？</h1>
-        {/* <GoogleLoginButton /> */}
+        <LoginMenuButton /> {/* 右上に表示 */}
       </div>
-
+      {/* 検索フォーム */}
       <RecipeForm onSearch={handleSearch} />
 
       {loading && <p>読み込み中...</p>}
