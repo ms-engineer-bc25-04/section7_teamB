@@ -3,15 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
 
-# いまはこうなっている：
-# from app.routers import recipes, auth, favorites
-# 一旦こうする
+# ルーターの import
 from app.routers import recipes, favorites, user
 
-# auth や favorites はまだ作ってないなら、とりあえずコメントアウトでOK！
-# from app.routers import auth, recipes
 
-# Prisma Client を使うため、追加する import
+# Prisma Client を使うための import
 from app.db import prisma_client
 
 
@@ -45,7 +41,7 @@ async def shutdown():
     await prisma_client.disconnect()
 
 
-# ルーターを登録（仮）
+# ルーターを登録
 app.include_router(favorites.router, prefix="/api/favorites", tags=["favorites"])
 app.include_router(recipes.router, prefix="/api/recipes", tags=["recipes"])
 app.include_router(user.router, prefix="/api", tags=["user"])

@@ -6,6 +6,12 @@ from pydantic import BaseModel
 router = APIRouter()
 
 
+# お気に入り新規登録時のリクエストボディ
+class FavoriteCreateRequest(BaseModel):
+    title: str
+    content: str  # memo→content
+
+
 # お気に入り更新時のリクエストボディ
 class FavoriteUpdateRequest(BaseModel):
     title: str
@@ -23,6 +29,22 @@ async def read_favorites(user=Depends(get_current_user)):
     # uidで絞る
     favorites = await prisma_client.favorite.find_many(where={"userUid": user["uid"]})
     return favorites
+
+
+# 認証済みユーザーのお気に入りを新規登録 (POST)
+@router.post("")
+async def create_favorite(
+    favorite_data: FavoriteCreateRequest = Body(...),
+    user=Depends(get_current_user),
+):
+    created_favorite = await prisma_client.favorite.create(
+        data={
+            "title": favorite_data.title,
+            "content": favorite_data.content,
+            "userUid": user["uid"],  # ← ★認証ユーザーのuidをセット！
+        }
+    )
+    return created_favorite
 
 
 # 認証済みユーザーのお気に入りを更新 (PUT)
@@ -47,7 +69,8 @@ async def update_favorite(
 # 認証済みユーザーのお気に入りを削除(delete)
 @router.delete("/{favorite_id}")
 async def delete_favorite(
-    favorite_id: int = Path(..., description="削除するお気に入りのID")
+    favorite_id: int = Path(..., description="削除するお気に入りのID"),
+    user=Depends(get_current_user)
 ):
     favorite = await prisma_client.favorite.find_unique(where={"id": favorite_id})
     if not favorite:
