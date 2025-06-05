@@ -3,7 +3,7 @@ import { auth, googleProvider } from '@/libs/firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
-export const GoogleLoginButton = () => {
+export default function GoogleLoginButton() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -24,7 +24,7 @@ export const GoogleLoginButton = () => {
 
       if (res.ok) {
         const userData = await res.json();
-        alert('認証OK！ユーザー情報: ' + JSON.stringify(userData));
+        // alert('認証OK！ユーザー情報: ' + JSON.stringify(userData));
         // 認証OKならリダイレクトやstate更新
         router.push('/'); // あとで更新　お気に入りページにリダイレクトする
       } else {
@@ -43,7 +43,7 @@ export const GoogleLoginButton = () => {
     <button
       onClick={handleLogin}
       disabled={isLoading}
-      className="flex items-center justify-center gap-2 w-full py-3 px-6 rounded-full bg-orange-400 hover:bg-orange-500 text-white text-base font-semibold transition shadow mb-2"
+      className="flex items-center justify-center gap-2 w-64 py-3 px-6 rounded-full bg-orange-400 hover:bg-orange-500 text-white text-base font-semibold transition shadow mb-2"
       style={{ boxShadow: '0 1px 3px #f2e3c6' }}
     >
       {isLoading ? (
@@ -56,4 +56,4 @@ export const GoogleLoginButton = () => {
       )}
     </button>
   );
-};
+}
