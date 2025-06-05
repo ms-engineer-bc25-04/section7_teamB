@@ -6,18 +6,14 @@ import os
 # ルーターの import
 from app.routers import recipes, favorites, user
 
-
 # Prisma Client を使うための import
 from app.db import prisma_client
-
 
 # .envファイルから環境変数を読み込む
 load_dotenv()
 
-
 # FastAPIアプリケーションのインスタンス生成
 app = FastAPI(title="Recipe App API", version="1.0.0")
-
 
 # CORS設定（フロントエンドのNext.jsなどと連携するため）
 origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
@@ -45,9 +41,6 @@ async def shutdown():
 app.include_router(favorites.router, prefix="/api/favorites", tags=["favorites"])
 app.include_router(recipes.router, prefix="/api/recipes", tags=["recipes"])
 app.include_router(user.router, prefix="/api", tags=["user"])
-
-# まだ作ってないからコメントアウト！
-# app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 
 
 # ルートパス

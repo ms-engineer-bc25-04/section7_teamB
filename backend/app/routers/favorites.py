@@ -9,18 +9,13 @@ router = APIRouter()
 # お気に入り新規登録時のリクエストボディ
 class FavoriteCreateRequest(BaseModel):
     title: str
-    content: str  # memo→content
+    content: str
 
 
 # お気に入り更新時のリクエストボディ
 class FavoriteUpdateRequest(BaseModel):
     title: str
-    content: str  # memo→content
-
-
-# 	•	APIすべてに認証を入れるのが必須（GET, POST, PUT, DELETEすべて）
-# 	•	他人のデータ操作防止は userUid でチェック
-# 	•	API経由のデータ流出・改ざんをしっかり防げる
+    content: str
 
 
 # 認証済みユーザーのお気に入り一覧取得
@@ -69,8 +64,8 @@ async def update_favorite(
 # 認証済みユーザーのお気に入りを削除(delete)
 @router.delete("/{favorite_id}")
 async def delete_favorite(
-    favorite_id: int = Path(..., description="削除するお気に入りのID"),
-    user=Depends(get_current_user)
+    favorite_id: str = Path(..., description="削除するお気に入りのID"),
+    user=Depends(get_current_user),
 ):
     favorite = await prisma_client.favorite.find_unique(where={"id": favorite_id})
     if not favorite:
