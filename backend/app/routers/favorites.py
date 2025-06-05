@@ -42,3 +42,16 @@ async def update_favorite(
         where={"id": favorite_id},
         data={"title": favorite_data.title, "content": favorite_data.content},
     )
+
+
+# 認証済みユーザーのお気に入りを削除(delete)
+@router.delete("/{favorite_id}")
+async def delete_favorite(
+    favorite_id: int = Path(..., description="削除するお気に入りのID")
+):
+    favorite = await prisma_client.favorite.find_unique(where={"id": favorite_id})
+    if not favorite:
+        raise HTTPException(status_code=404, detail="Favorite not found")
+
+    await prisma_client.favorite.delete(where={"id": favorite_id})
+    return {"message": "Favorite deleted successfully"}
