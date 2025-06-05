@@ -1,45 +1,44 @@
-from fastapi import APIRouter,HTTPException, Path, Body
+from fastapi import APIRouter, HTTPException, Path, Body, Depends
 from app.db import prisma_client
+from app.deps.auth import get_current_user
 from pydantic import BaseModel
-
 
 router = APIRouter()
 
 
-# Favorite更新時のリクエストボディ
+# お気に入り更新時のリクエストボディ
 class FavoriteUpdateRequest(BaseModel):
     title: str
-    memo: str
+    content: str  # memo→content
 
 
-# お気に入り一覧取得 (GET) 
+# 	•	APIすべてに認証を入れるのが必須（GET, POST, PUT, DELETEすべて）
+# 	•	他人のデータ操作防止は userUid でチェック
+# 	•	API経由のデータ流出・改ざんをしっかり防げる
+
+
+# 認証済みユーザーのお気に入り一覧取得
 @router.get("")
-async def read_favorites():
-    favorites = await prisma_client.favorite.find_many()
+async def read_favorites(user=Depends(get_current_user)):
+    # uidで絞る
+    favorites = await prisma_client.favorite.find_many(where={"userUid": user["uid"]})
     return favorites
 
 
+# 認証済みユーザーのお気に入りを更新 (PUT)
 @router.put("/{favorite_id}")
 async def update_favorite(
-    favorite_id: int = Path(..., desctiption="編集するお気に入りのID"),
-    dfavorite_data: FavoriteUpdateRequest = Body(...)
+    favorite_id: str = Path(..., description="編集するお気に入りのID"),
+    favorite_data: FavoriteUpdateRequest = Body(...),
+    user=Depends(get_current_user),
 ):
-    
-
-    # 指定IDのデータを取得
-    favorite = await prisma_cliant.favorite.find_unipue(where={"id": favorite_id})
-    if not favorite:
-        raise HTTPException(status_code=404, datail="Favotire not found")
-    
+    # 該当ID＋自分のデータのみ
+    favorite = await prisma_client.favorite.find_unique(where={"id": favorite_id})
+    if not favorite or favorite.userUid != user["uid"]:
+        raise HTTPException(status_code=404, detail="Favorite not found or not yours")
 
     # データを更新
-    updated = await prisma_client.favorite.Update(
+    return await prisma_client.favorite.update(
         where={"id": favorite_id},
-        data={
-            "title": favorite_data.title,
-            "memo": favorite_data.memo
-        }
-        
+        data={"title": favorite_data.title, "content": favorite_data.content},
     )
-
-    return updated
