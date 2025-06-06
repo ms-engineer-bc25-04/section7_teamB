@@ -1,6 +1,6 @@
-// src/app/api/fetchRecipes.ts
-
-export async function fetchRecipes(keyword: string): Promise<{ title: string; instructions: string; }[]> {
+async function fetchRecipes(
+  keyword: string
+): Promise<{ title: string; instructions: string }[]> {
   const response = await fetch('http://localhost:8000/api/recipes', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -13,9 +13,11 @@ export async function fetchRecipes(keyword: string): Promise<{ title: string; in
 
   const data = await response.json();
 
-// ⭐ ここに入れる！！(本番では削除)
+  // ⭐ ここに入れる！！(本番では削除)
   console.log('API response:', data);
 
   // FastAPI 側が { recipes: [{ title, instructions }, ...] } を返している場合
   return data.recipe;
 }
+
+export default fetchRecipes;

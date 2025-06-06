@@ -1,13 +1,12 @@
-// frontend/src/components/PopupMessage.tsx
 'use client';
 
 import { useEffect } from 'react';
 
 type PopupMessageProps = {
   message: string;
-  onClose?: () => void; // OKボタン用
-  autoClose?: boolean;
-  autoCloseDelay?: number; // ミリ秒
+  onClose: () => void;
+  autoClose: boolean;
+  autoCloseDelay: number;
 };
 
 export default function PopupMessage({
@@ -19,11 +18,10 @@ export default function PopupMessage({
   // 自動クローズ処理
   useEffect(() => {
     if (autoClose && onClose) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, autoCloseDelay);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(onClose, autoCloseDelay);
+      return () => clearTimeout(timer); // クリーンアップ
     }
+    return undefined; // 何もしない場合は明示的にundefinedを返す
   }, [autoClose, autoCloseDelay, onClose]);
 
   return (
@@ -34,6 +32,7 @@ export default function PopupMessage({
           <button
             onClick={onClose}
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+            type="button"
           >
             OK
           </button>
