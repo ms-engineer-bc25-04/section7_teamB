@@ -18,7 +18,7 @@ export default function RecipeForm({ onSearch }: RecipeFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4 flex flex-col gap-2 items-start">
+    <form onSubmit={handleSubmit} className="mb-4 flex flex-col gap-2 items-center">
       <label className="text-[#443627] font-bold">📝 食材を入力してください</label>
       <input
         type="text"

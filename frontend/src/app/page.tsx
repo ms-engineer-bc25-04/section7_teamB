@@ -105,23 +105,28 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white font-sans p-8 flex flex-col items-center gap-6">
       {/* ヘッダー */}
-      <div className="flex justify-between w-full max-w-3xl items-center">
-        <h1 className="text-3xl font-bold text-[#443627]">今日なにつくる？</h1>
-        <LoginMenuButton /> {/* 右上に表示 */}
+      <div className="w-full flex justify-end">
+        <LoginMenuButton />
       </div>
-      {/* 検索フォーム */}
+
+     {/* ★★★ 中央揃え部分（h1 ＋ フォーム ＋ メッセージ ＋ リスト） */}
+      <div className="flex flex-col items-center w-full max-w-md text-center space-y-6">
+        <h1 className="text-3xl font-bold text-[#443627]">今日なにつくる？</h1>
+
+     {/* 検索フォーム */}
       <RecipeForm onSearch={handleSearch} />
 
-      {loading && <p>読み込み中...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+     {loading && <p>読み込み中...</p>}
+     {error && <p className="text-red-500">{error}</p>}
 
-      {/* レシピリスト */}
+    {/* レシピリスト */}
       <RecipeList
         recipes={recipes}
         addFavorite={addFavorite}
         isSubmitting={isSubmitting}
       />
-
+    </div>
+      
       {/* ★★★ ポップアップ表示 */}
       {popupMessage && (
         <PopupMessage
