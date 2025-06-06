@@ -1,6 +1,9 @@
+//一覧ページ
 'use client'
 
 import { useEffect, useState } from 'react'
+import { getIdToken } from '@/utils/auth'
+import LoginMenuButton from '@/components/LoginMenu'
 
 type Favorite = {
   id: string
@@ -10,109 +13,69 @@ type Favorite = {
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<Favorite[]>([])
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [editId, setEditId] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  // 一覧取得
   const fetchFavorites = async () => {
-    const res = await fetch('http://localhost:8000/api/favorites', {
-      credentials: 'include', // cookieにFirebaseのtokenなどがある場合はこれ必要
-    })
-    const data = await res.json()
-    setFavorites(data)
+    try {
+      setLoading(true)
+      setError(null)
+
+      const token = await getIdToken()
+      if (!token) {
+        throw new Error('認証トークンが取得できません')
+      }
+
+      const res = await fetch('http://localhost:8000/api/favorites', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (!res.ok) {
+        throw new Error(`エラーが発生しました (${res.status})`)
+      }
+
+      const data = await res.json()
+      setFavorites(data)
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
     fetchFavorites()
   }, [])
 
-  // 追加 or 更新
-  const submitFavorite = async () => {
-    const method = editId ? 'PUT' : 'POST'
-    const url = editId
-      ? `http://localhost:8000/api/favorites/${editId}`
-      : `http://localhost:8000/api/favorites`
-
-    await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ title, content }),
-    })
-
-    setTitle('')
-    setContent('')
-    setEditId(null)
-    fetchFavorites()
-  }
-
-  // 編集
-  const startEdit = (fav: Favorite) => {
-    setTitle(fav.title)
-    setContent(fav.content)
-    setEditId(fav.id)
-  }
-
-  // 削除
-  const deleteFavorite = async (id: string) => {
-    await fetch(`http://localhost:8000/api/favorites/${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
-    fetchFavorites()
-  }
-
   return (
-    <div className="p-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">お気に入り編集</h1>
-
-      <div className="mb-4 space-y-2">
-        <input
-          type="text"
-          placeholder="タイトル"
-          className="border px-2 py-1 w-full"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <textarea
-          placeholder="内容"
-          className="border px-2 py-1 w-full"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={submitFavorite}
-        >
-          {editId ? '更新する' : '追加する'}
-        </button>
+    <div className="min-h-screen bg-white font-sans p-8 flex flex-col items-center gap-6">
+      {/* ヘッダー */}
+      <div className="flex justify-between w-full max-w-3xl items-center">
+        <h1 className="text-3xl font-bold text-[#443627]">お気に入り一覧</h1>
+        <LoginMenuButton />
       </div>
 
-      <ul className="space-y-4">
-        {favorites.map((fav) => (
-          <li key={fav.id} className="border p-2 rounded">
-            <h2 className="font-bold">{fav.title}</h2>
-            <p>{fav.content}</p>
-            <div className="mt-2 space-x-2">
-              <button
-                className="text-blue-500"
-                onClick={() => startEdit(fav)}
-              >
-                編集
-              </button>
-              <button
-                className="text-red-500"
-                onClick={() => deleteFavorite(fav.id)}
-              >
-                削除
-              </button>
+      {loading && <p className="text-gray-500">読み込み中...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+
+      {/* お気に入りリスト */}
+      <div className="w-full max-w-3xl space-y-4">
+        {favorites.length === 0 && !loading ? (
+          <p className="text-gray-400 text-center">お気に入りはまだ登録されていません。</p>
+        ) : (
+          favorites.map((fav) => (
+            <div
+              key={fav.id}
+              className="border rounded-lg p-4 bg-white shadow-sm"
+            >
+              <h2 className="text-xl font-semibold text-[#443627]">{fav.title}</h2>
+              <p className="text-gray-600 mt-1 whitespace-pre-wrap">{fav.content}</p>
             </div>
-          </li>
-        ))}
-      </ul>
+          ))
+        )}
+      </div>
     </div>
   )
 }
