@@ -1,6 +1,7 @@
-import { getIdToken } from '@/utils/auth';
+import getIdToken from '@/utils/auth';
 
-export async function fetchUser() {
+// 認証付きでユーザー情報を取得する関数
+export default async function fetchUser() {
   const idToken = await getIdToken();
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
     headers: {
@@ -8,5 +9,5 @@ export async function fetchUser() {
     },
   });
   if (!res.ok) throw new Error('認証失敗');
-  return await res.json();
+  return res.json(); // return await を return だけに修正
 }
