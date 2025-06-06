@@ -1,27 +1,31 @@
-# バックエンド (FastAPI)
+# レシピアプリ バックエンド
 
-## 環境構築
+## 技術スタック
+
+- FastAPI
+- Prisma ORM
+- PostgreSQL
+- Firebase Admin SDK
+
+## 開発環境のセットアップ
 
 ### 必要条件
 
-- Python 3.8 以上
-- Docker & Docker Compose
-- PostgreSQL
+- Python 3.11 以上
+- PostgreSQL 14 以上
+- pipenv
 
-### セットアップ手順
-
-0. 前準備
-
-cd backend
+### インストール手順
 
 1. 仮想環境を作成して有効化
 
 ```bash
-python3.12 -m venv venv
-# Windows
-venv\Scripts\activate
+python3.11.12 -m venv venv
+
 # macOS/Linux
 source venv/bin/activate
+# Windows
+venv\Scripts\activate
 ```
 
 2. 依存パッケージのインストール
@@ -43,57 +47,42 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-5. アプリケーションの起動
+5. Prisma のセットアップ
+
+```bash
+# 1. データベースマイグレーションを実行
+npx prisma migrate dev --name init
+
+# 2. Prismaクライアントの生成
+prisma generate
+
+# 3. 初期データの投入
+python prisma/seed.py（例）
+```
+
+6. アプリケーションの起動
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-## プロジェクト構造
+### API ドキュメント
+
+<URL>
+
+## 📁 ディレクトリ構造
 
 ```
 backend/
 ├── app/
-│   ├── main.py          # アプリケーションのエントリーポイント
-│   ├── routers/         # APIルーティング
-│   ├── services/        # ビジネスロジック
-│   └── models/          # データモデル
-├── requirements.txt     # 依存パッケージ
-├── .env.example         # 環境変数テンプレート
-└── docker-compose.yml   # Docker設定
+│   ├── routers/    # APIエンドポイント
+│   ├── deps/       # 依存関係（認証等）
+│   ├── libs/       # 共通ライブラリ
+│   ├── schemas/    # リクエスト/レスポンスのデータモデル
+│   └── services/   # ビジネスロジック
+│
+├── prisma/         # Prismaスキーマ・マイグレーション
+└── venv/           # Python仮想環境
 ```
 
-## 主な機能
-
-- レシピ関連の CRUD 操作
-- ユーザー認証（Firebase Authentication）
-- お気に入りレシピの管理
-- ChatGPT API を使用したレシピ提案
-
-## API 設計
-
-| メソッド | エンドポイント       | 概要                                                   | 認証 |
-| -------- | -------------------- | ------------------------------------------------------ | ---- |
-| `POST`   | `/api/recipes`       | 材料を送信 → ChatGPT がレシピを提案（DB 保存しない）   | ✅   |
-| `GET`    | `/api/favorites`     | ログインユーザーのお気に入りレシピ一覧を**すべて取得** | ✅   |
-| `POST`   | `/api/favorites`     | レシピをお気に入りとして新規登録                       | ✅   |
-| `PUT`    | `/api/favorites/:id` | 特定のお気に入りを**編集**（レシピタイトル・内容など） | ✅   |
-| `DELETE` | `/api/favorites/:id` | 特定のお気に入りを**削除**                             | ✅   |
-
-### レスポンス形式
-
-```json
-// 成功時のレスポンス例
-{
-  "status": "success",
-  "data": {
-    // レスポンスデータ
-  }
-}
-
-// エラー時のレスポンス例
-{
-  "status": "error",
-  "message": "エラーメッセージ"
-}
-```
+---
