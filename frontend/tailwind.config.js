@@ -1,20 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/**/*.{js,ts,jsx,tsx}', // Next.jsでよく使うパス
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
       colors: {
-        // デザイン要件に合わせたカスタムカラー
-        primary: '#393E46', // 任意の既存カラー
+        primary: 'var(--color-primary)',
         button: {
-          white: '#FFFFFF',        // ボタン用ホワイト
-          orange: '#FF9D23',       // ボタン用オレンジ
+          white: 'var(--color-button-white)',
+          orange: 'var(--color-button-orange)',
         },
-        title: '#443627',          // タイトル用 茶色
-        text: '#393E46',           // テキスト用 灰黒色
-        background: '#FFFFFF',     // 背景用ホワイト
+        title: 'var(--color-title)', // タイトル用 茶色
+        text: 'var(--color-text)', // テキスト用 灰黒色
+        background: 'var(--color-background)', // 背景用ホワイト
       },
       fontFamily: {
         // 日本語対応フォント

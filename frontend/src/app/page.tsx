@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { getAuth } from 'firebase/auth';
 import { fetchRecipes } from './api/fetchRecipes';
 import RecipeForm from '../components/RecipeForm';
 import RecipeList from '../components/RecipeList';
 import LoginMenuButton from '../components/LoginMenu';
-import { getAuth } from 'firebase/auth';
 
 type Recipe = {
   title: string;
@@ -22,9 +22,9 @@ export default function Home() {
     try {
       setLoading(true);
       setError(null);
-      
+
       const result = await fetchRecipes(ingredients.join(', '));
-      
+
       setRecipes(result);
     } catch (err) {
       setError((err as Error).message);
@@ -62,14 +62,15 @@ export default function Home() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(`お気に入り登録に失敗しました (${response.status}): ${errorData.detail}`);
+        throw new Error(
+          `お気に入り登録に失敗しました (${response.status}): ${errorData.detail}`
+        );
       }
 
       console.log('お気に入り登録成功！');
-
-    } catch (error) {
+    } catch (err) {
       console.error('エラー:', error);
-      setError((error as Error).message);
+      setError((err as Error).message);
     } finally {
       setIsSubmitting(false);
     }

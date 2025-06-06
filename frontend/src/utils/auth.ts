@@ -1,11 +1,12 @@
-// FirebaseのIDトークンを取得するユーティリティ関数
-
 import { auth } from '@/libs/firebase';
 
-export async function getIdToken(): Promise<string | null> {
+// FirebaseのIDトークンを取得するユーティリティ関数
+export default async function getIdToken(): Promise<string | null> {
   const user = auth.currentUser;
   if (user) {
-    return await user.getIdToken();
+    // ユーザーがログインしている場合、IDトークンを強制リフレッシュして返す
+    // 1回のAPIコールで済むようにする、return await は不要
+    return user.getIdToken(true); // ← これだけでOK
   }
   return null;
 }
