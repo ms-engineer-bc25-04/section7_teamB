@@ -1,49 +1,74 @@
-week 7 チーム開発：今日なにつくる？
+# レシピ管理アプリケーション
 
-## 🏗️ アプリ構成（技術スタック）
+## 概要
 
-| 項目 | 内容 |
-| --- | --- |
-| **フロントエンド** | Next.js（TypeScript）+ Tailwind CSS |
-| **バックエンド** | FastAPI（Python） |
-| **データベース** | PostgreSQL（Prismaで管理） |
-| **認証** | Firebase Authentication（Google） |
-| **その他** | Docker + docker-compose、
-ChatGPT API（OpenAI）連携、
-envで秘密情報管理 |
+このプロジェクトは、AI を活用してユーザーの冷蔵庫の食材からレシピを提案し、お気に入りのレシピを管理・共有できる Web アプリケーションです。
 
+## 🌟 実装機能一覧（MVP）
 
+1. 🧂 **レシピ提案機能**
 
+   - 材料を入力すると、ChatGPT が最適なレシピを提案
+   - 季節や調理時間を考慮したレシピ生成
 
-my-app/
-├── frontend/                             # フロントエンド (Next.js + TypeScript)
-│   ├── public/                           # 静的ファイル（画像・faviconなど）
-│   ├── src/
-│   │   ├── pages/                        # App Router または Page Router 構成
-│   │   ├── components/                   # 再利用可能なUIパーツ
-│   │   ├── styles/                       # TailwindやCSS設定
-│   │   └── utils/                        # クライアント用ユーティリティ関数
-│   ├── .env.example                      # フロントエンド用環境変数テンプレート
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── next.config.js
-│
-├── backend/                              # バックエンド (FastAPI + Prisma + Docker)
-│   ├── app/
-│   │   ├── main.py                       # FastAPIのエントリーポイント
-│   │   ├── routers/                      # APIルーティング（recipes, favoritesなど）
-│   │   ├── models/                       # Pydanticスキーマ（Request/Response用）
-│   │   └── services/                     # GPT連携、認証、DB操作などのロジック
-│   ├── prisma/                           # Prismaスキーマとマイグレーション
-│   │   ├── schema.prisma
-│   │   └── migrations/
-│   ├── .env.example                      # バックエンド用環境変数テンプレート
-│   ├── Dockerfile                        # FastAPI サーバーのDocker設定　（ことね：ここ削除したいです！）
-│   └── docker-compose.yml                # DB（PostgreSQL）の統合設定　（ことね：ここ修正したいです！　docker databaseのみ））
-│
-├── docs/                                 # ドキュメント類（ER図、API仕様など）
-│   ├── ER図.drawio                        # ER図の元ファイル（またはPNG）
-│   └── api.md                       # API仕様書（エンドポイント定義など）
-│
-├── README.md                             # プロジェクト概要・技術構成・起動手順
-└── .gitignore                            # Git管理除外ファイル設定
+2. 👤 **ユーザー管理機能**
+   - Google アカウントでの簡単ログイン
+   - ユーザープロフィールの管理
+3. ⭐ **お気に入り機能**
+   - 気に入ったレシピの保存
+   - お気に入りレシピの一覧表示と検索
+   - レシピの編集と削除
+
+## 💻 技術スタック
+
+### フロントエンド
+
+- Next.js 13 (App Router)
+- TypeScript 5.3
+- Tailwind CSS 3.4
+- Firebase Authentication
+
+### バックエンド
+
+- FastAPI 0.104
+- Python 3.11
+- Prisma Client Python
+- Firebase Admin SDK
+
+### インフラ・外部サービス
+
+- PostgreSQL 14
+- Docker / docker-compose
+- OpenAI API (GPT-4)
+- Firebase Authentication
+
+## 📂 ディレクトリ構造
+
+```
+section7_teamB/
+├── frontend/     # フロントエンドアプリケーション
+├── backend/      # バックエンドAPI
+└── docs/         # プロジェクトドキュメント
+```
+
+## 🔧 開発環境のセットアップ
+
+1. リポジトリのクローン
+
+```bash
+git clone https://github.com/ms-engineer-bc25-04/section7_teamB.git
+cd section7_teamB
+```
+
+2. 環境変数の設定
+
+- `.env.example`をコピーして`.env`を作成
+- 必要な環境変数を設定
+
+3. フロントエンドとバックエンドの起動
+
+- 詳細は各ディレクトリの README を参照
+
+## ライセンス
+
+MIT License
