@@ -3,6 +3,7 @@ import { auth, googleProvider } from '@/libs/firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 export default function GoogleLoginButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,10 @@ export default function GoogleLoginButton() {
       });
 
       if (res.ok) {
-        router.push('/favorites'); // 成功時にリダイレクト 現在は仮のリンク！
+        toast.success('ログイン成功！');
+        setTimeout(() => {
+          router.push('/favorites');
+        }, 700);
       } else {
         const err = await res.json();
         setError(`認証エラー: ${err.detail}`); // ここでエラーstateにセット

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/libs/firebase';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function LoginMenuButton() {
   const [user] = useAuthState(auth);
@@ -29,7 +30,10 @@ export default function LoginMenuButton() {
   // ログアウト処理
   const handleLogout = async () => {
     await auth.signOut();
-    router.push('/');
+    toast.success('ログアウトしました！');
+    setTimeout(() => {
+      router.push('/');
+    }, 700);
   };
 
   if (!user) {
@@ -85,7 +89,7 @@ export default function LoginMenuButton() {
             className="block w-full px-4 py-2 hover:bg-orange-50 text-left text-gray-700"
             onClick={() => {
               setOpen(false);
-              router.push('/favorites'); // 現在は仮のリンク！
+              router.push('/favorites');
             }}
           >
             お気に入り
