@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/libs/firebase';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function LoginMenuButton() {
   const [user] = useAuthState(auth);
@@ -29,13 +30,17 @@ export default function LoginMenuButton() {
   // ログアウト処理
   const handleLogout = async () => {
     await auth.signOut();
-    router.push('/');
+    toast.success('ログアウトしました！');
+    setTimeout(() => {
+      router.push('/');
+    }, 700);
   };
 
   if (!user) {
     // 未ログイン時は「ログイン」ボタン（やわらかいオレンジ・丸み）
     return (
       <button
+        type="button" // 明示的にtypeを指定（form誤動作防止）
         onClick={() => router.push('/login')}
         className="px-4 py-2 rounded-full bg-orange-400 text-white font-semibold hover:bg-orange-500 transition"
         style={{ boxShadow: '0 1px 3px #f2e3c6' }}
@@ -49,6 +54,7 @@ export default function LoginMenuButton() {
   return (
     <div className="relative">
       <button
+        type="button" // 明示的にtypeを指定（form誤動作防止）
         onClick={() => setOpen((v) => !v)}
         className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center hover:bg-orange-200 transition relative"
         title="ログイン中"
@@ -69,6 +75,7 @@ export default function LoginMenuButton() {
       {open && (
         <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg border border-orange-200 shadow-md z-50">
           <button
+            type="button"
             className="block w-full px-4 py-2 hover:bg-orange-50 text-left text-gray-700"
             onClick={() => {
               setOpen(false);
@@ -78,6 +85,7 @@ export default function LoginMenuButton() {
             トップ
           </button>
           <button
+            type="button"
             className="block w-full px-4 py-2 hover:bg-orange-50 text-left text-gray-700"
             onClick={() => {
               setOpen(false);
@@ -87,6 +95,7 @@ export default function LoginMenuButton() {
             お気に入り
           </button>
           <button
+            type="button"
             className="block w-full px-4 py-2 hover:bg-orange-100 text-left text-orange-500"
             onClick={handleLogout}
           >

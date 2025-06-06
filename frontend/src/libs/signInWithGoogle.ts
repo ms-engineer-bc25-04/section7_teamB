@@ -2,7 +2,9 @@ import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '@/libs/firebase';
 
 // Googleログイン処理。ログイン結果を返す
-export const signInWithGoogle = async () => {
+const signInWithGoogle = async () => {
   const result = await signInWithPopup(auth, googleProvider);
-  return result; // result.userなど
+  return result;
 };
+
+export default signInWithGoogle;

@@ -4,9 +4,9 @@ from prisma.types import UserCreateInput
 
 USERS = [
     UserCreateInput(
-        uid="firebase_uid",
-        email="xxx@gmail.com",
-        name="xxx",
+        uid="LGr43wiqwqXN0rcy6nmbFaQpWiz2",
+        email="takaeshiobara@gmail.com",
+        name="takae",
     ),
 ]
 
