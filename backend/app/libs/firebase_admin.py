@@ -1,3 +1,4 @@
+"""Firebase Admin SDK initialization helper module."""  # C0114対策
 # Firebase Admin SDK の初期化
 
 import os
@@ -8,11 +9,12 @@ from fastapi import HTTPException
 
 
 def initialize_firebase():
-    # ✅ テスト中は Firebase 初期化をスキップ
+    """Initialize Firebase Admin SDK if not already initialized."""  # C0116対策
+    # テスト中は Firebase 初期化をスキップ
     if os.getenv("TESTING") == "1":
         print("[INFO] Skipping Firebase initialization (TESTING mode)")
         return
-    
+
     try:
         # サービスアカウントキーのパスを環境変数から取得
         cred_path = os.environ.get(

@@ -32,7 +32,7 @@ return (
             <h2 className="text-lg font-bold text-[#443627]">{recipe.title}</h2>
           </div>
           {/* ここを preタグにする！ */}
-          <pre className="whitespace-pre-wrap text-[#393E46]">{recipe.instructions}</pre>
+          <pre className="whitespace-pre-wrap text-left text-[#393E46]">{recipe.instructions}</pre>
           
            <button
             onClick={() => addFavorite(recipe)}
