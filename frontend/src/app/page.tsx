@@ -20,12 +20,12 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-// ★★★ ポップアップ用 state
+// ポップアップ用 state
   const [popupMessage, setPopupMessage] = useState<string | null>(null);
   const [autoClose, setAutoClose] = useState(true);
   const router = useRouter();
 
-// ★★★ ポップアップ閉じる関数
+// ポップアップ閉じる関数
   const closePopup = () => {
     setPopupMessage(null);
   };
@@ -52,7 +52,7 @@ export default function Home() {
       const user = auth.currentUser;
 
       if (!user) {
-       // ★★★ 未ログイン時 → tryに入れずここで完結
+       // 未ログイン時 → tryに入れずここで完結
        setPopupMessage('ログインしてください');
        setAutoClose(true);
        setTimeout(() => {
@@ -61,7 +61,7 @@ export default function Home() {
        return;
     }
 
-  // ★★★ 認証済み → ここからtry
+  // 認証済み → ここからtry
   setIsSubmitting(true);
   try {
     const idToken = await user.getIdToken();
@@ -80,14 +80,14 @@ export default function Home() {
       });
 
   if (response.ok) {
-        // ★★★ 成功時
+        // 成功時
         setPopupMessage('登録できました！');
         setAutoClose(true);
         setTimeout(() => {
           router.push('/favorites');
         }, 3000);
       } else if (response.status === 409) {
-        // ★★★ 重複時
+        // 重複時
         setPopupMessage('登録済みです');
         setAutoClose(false); // OKボタンで閉じる
       } else {
@@ -109,7 +109,7 @@ export default function Home() {
         <LoginMenuButton />
       </div>
 
-     {/* ★★★ 中央揃え部分（h1 ＋ フォーム ＋ メッセージ ＋ リスト） */}
+     {/* 中央揃え部分（h1 ＋ フォーム ＋ メッセージ ＋ リスト） */}
       <div className="flex flex-col items-center w-full max-w-md text-center space-y-6">
         <h1 className="text-3xl font-bold text-[#443627]">今日なにつくる？</h1>
 

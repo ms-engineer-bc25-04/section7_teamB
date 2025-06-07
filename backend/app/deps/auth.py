@@ -1,14 +1,14 @@
+"""Authentication dependency module."""  # C0114対策
 # Firebase の ID トークン認証用ミドルウェア
 # APIリクエストのAuthorizationヘッダーからIDトークンを抽出し検証する
 
-from fastapi import Depends, HTTPException, Security
+from fastapi import HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from firebase_admin import auth as firebase_auth
 from app.libs.firebase_admin import initialize_firebase
+from firebase_admin import auth as firebase_auth
 
 # Bearer認証のスキーマを設定
 security = HTTPBearer()
-
 
 async def get_current_user(token: HTTPAuthorizationCredentials = Security(security)):
     """
