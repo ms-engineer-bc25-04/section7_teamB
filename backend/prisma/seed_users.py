@@ -8,6 +8,11 @@ USERS = [
         email="takaeshiobara@gmail.com",
         name="takae",
     ),
+    UserCreateInput(
+        uid="QAUq4FlFB6deuhVMRD77btxZ4zz1", 
+        email="r15.zzz0415@gmail.com",   
+        name="noriko",
+    ),
 ]
 
 
