@@ -69,7 +69,8 @@ export default function Home() {
       const idToken = await user.getIdToken();
 
       // 認証付きでfetch
-      const response = await fetch('http://localhost:8000/api/favorites', {
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const response = await fetch(`${baseUrl}/api/favorites`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +100,6 @@ export default function Home() {
         );
       }
     } catch (err) {
-      console.error('エラー:', error);
       setError((err as Error).message);
     } finally {
       setIsSubmitting(false);
@@ -112,7 +112,6 @@ export default function Home() {
       <div className="w-full flex justify-end">
         <LoginMenuButton />
       </div>
-
       {/* 中央揃え部分（h1 ＋ フォーム ＋ メッセージ ＋ リスト） */}
       <div className="flex flex-col items-center w-full max-w-md text-center space-y-6">
         <h1 className="text-3xl font-bold text-[#443627]">今日なにつくる？</h1>
@@ -130,7 +129,6 @@ export default function Home() {
           isSubmitting={isSubmitting}
         />
       </div>
-
       {/* ★★★ ポップアップ表示 */}
       {popupMessage && (
         <PopupMessage
