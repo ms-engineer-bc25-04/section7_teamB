@@ -10,7 +10,7 @@
 # 1. API 概要
 
 - **Base URL**:
-  - 開発環境（ローカル） → `http://localhost:8000/api/`
+  - 開発環境（ローカル） → `http://localhost:8000`
   - 本番環境 → TBD（デプロイ後に記載）
 - **認証**: Firebase 認証（Authorization ヘッダーに Firebase ID Token）
 - **データ形式**: JSON
