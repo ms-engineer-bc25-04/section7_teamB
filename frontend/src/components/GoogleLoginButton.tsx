@@ -20,7 +20,7 @@ export default function GoogleLoginButton() {
       const idToken = await result.user.getIdToken();
       // /api/user に認証付きでアクセス
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-      const res = await fetch(`${baseUrl}/user`, {
+      const res = await fetch(`${baseUrl}/api/user`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         },

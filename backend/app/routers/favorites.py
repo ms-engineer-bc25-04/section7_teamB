@@ -32,7 +32,7 @@ async def read_favorites(user=Depends(get_current_user)):
 
 
 # 認証済みユーザーのお気に入りを新規登録 (POST)
-@router.post("")
+@router.post("", status_code=201)
 async def create_favorite(
     favorite_data: FavoriteCreateRequest = Body(...),
     user=Depends(get_current_user),

@@ -1,7 +1,8 @@
 async function fetchRecipes(
   keyword: string
 ): Promise<{ title: string; instructions: string }[]> {
-  const response = await fetch('http://localhost:8000/api/recipes', {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const response = await fetch(`${baseUrl}/api/recipes`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ keyword }),
@@ -12,9 +13,6 @@ async function fetchRecipes(
   }
 
   const data = await response.json();
-
-  // ⭐ ここに入れる！！(本番では削除)
-  console.log('API response:', data);
 
   // FastAPI 側が { recipes: [{ title, instructions }, ...] } を返している場合
   return data.recipe;
