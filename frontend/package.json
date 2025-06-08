@@ -1,51 +1,25 @@
 {
-  "name": "next",
-  "version": "0.1.0",
+  "name": "frontend",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prettier": "prettier --write .",
-    "lint": "eslint . --fix",
     "build": "next build",
-    "start": "next start",
-    "test": "vitest"
+    "start": "next start"
   },
   "dependencies": {
-    "firebase": "^11.8.1",
-    "next": "15.3.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-firebase-hooks": "^5.1.1",
-    "react-hot-toast": "^2.5.2"
+    "firebase": "^11.9.0",
+    "next": "13.4.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.0.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^14.6.1",
-    "@types/next": "^9.0.0",
-    "@types/node": "^20.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "@typescript-eslint/parser": "^6.13.1",
+    "@tailwindcss/postcss": "^4.1.8",
+    "@types/node": "^22.15.30",
+    "@types/react": "19.1.6",
     "autoprefixer": "^10.4.21",
-    "eslint": "^8.56.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.1.0",
-    "eslint-config-next": "^15.3.3",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^4.4.1",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-prettier": "^5.0.1",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "jsdom": "^26.1.0",
     "postcss": "^8.5.4",
-    "prettier": "^3.2.5",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.3.3",
-    "vitest": "^3.1.4"
+    "tailwindcss": "^4.1.8",
+    "vitest": "^3.2.2"
   }
 }
