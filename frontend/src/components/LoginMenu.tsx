@@ -4,7 +4,7 @@ import { auth } from '@/libs/firebase';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-export default function LoginMenuButton() {
+export default function LoginMenu() {
   const [user] = useAuthState(auth);
   const [open, setOpen] = useState(false);
   const router = useRouter();
