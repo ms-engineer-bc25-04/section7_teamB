@@ -7,7 +7,7 @@ import { getAuth } from 'firebase/auth';
 import fetchRecipes from './api/fetchRecipes';
 import RecipeForm from '../components/RecipeForm';
 import RecipeList from '../components/RecipeList';
-import LoginMenuButton from '../components/LoginMenu';
+import LoginMenu from '../components/LoginMenu';
 
 import PopupMessage from '../components/PopupMessage';
 
@@ -110,7 +110,7 @@ export default function Home() {
     <div className="min-h-screen bg-white font-sans p-8 flex flex-col items-center gap-6">
       {/* ヘッダー */}
       <div className="w-full flex justify-end">
-        <LoginMenuButton />
+        <LoginMenu />
       </div>
       {/* 中央揃え部分（h1 ＋ フォーム ＋ メッセージ ＋ リスト） */}
       <div className="flex flex-col items-center w-full max-w-md text-center space-y-6">
